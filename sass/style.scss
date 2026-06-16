@@ -147,6 +147,13 @@ body {
   color: var(--text);
   background: var(--background);
   font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 button,
@@ -508,6 +515,18 @@ select {
 .home-content a:focus-visible {
   outline: 1px solid currentColor;
   outline-offset: .2em;
+}
+
+.construction-message {
+  margin: clamp(3rem, 9vw, 7rem) auto;
+  max-width: 18ch;
+  color: var(--accent);
+  font-size: clamp(2.2rem, 6vw, 4.75rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.05;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .archive-main,
