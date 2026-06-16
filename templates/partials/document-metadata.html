@@ -1,8 +1,11 @@
-{% set meta = page.extra.metadata | default(value=section.extra.metadata) %}
-{% if meta %}
+{% set meta = page.extra.metadata | default(value=false) %} {% if not meta %} {%
+set meta = section.extra.metadata | default(value=false) %} {% endif %} {% if
+meta %}
 <dl class="document-metadata" aria-label="Datos editoriales del documento">
   {% for item in meta %}
-  <div class="document-metadata__item{% if item.featured %} document-metadata__item--featured{% endif %}">
+  <div
+    class="document-metadata__item{% if item.featured %} document-metadata__item--featured{% endif %}"
+  >
     <dt>{{ item.label }}</dt>
     <dd>{{ item.value | markdown | safe }}</dd>
   </div>
