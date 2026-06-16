@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block title %}{{ section.title }} — {{
+config.extra.site.name }}{% endblock title %} {% block content %}
+<main id="contenido" class="archive-main">
+  <header class="archive-header">
+    <h1>{{ section.title }}</h1>
+    {% if section.description %}
+    <p>{{ section.description }}</p>
+    {% endif %}
+  </header>
+  {% if section.content %}
+  <article class="home-content">{{ section.content | safe }}</article>
+  {% endif %} {% if section.extra.sections %}
+  <nav class="archive-periods" aria-label="Secciones de {{ section.title }}">
+    {% for item in section.extra.sections %}
+    <section class="archive-period">
+      <h2>
+        <a href="{{ config.base_url | safe }}/{{ item.path }}"
+          >{{ item.title }}</a
+        >
+      </h2>
+    </section>
+    {% endfor %}
+  </nav>
+  {% elif section.subsections %}
+  <ol class="document-list">
+    {% for sub_path in section.subsections %} {% set sub =
+    get_section(path=sub_path) %}
+    <li>
+      <a href="{{ sub.permalink | safe }}">{{ sub.title }}</a>
+    </li>
+    {% endfor %}
+  </ol>
+  {% elif section.pages %}
+  <ol class="document-list">
+    {% for page in section.pages %}
+    <li>
+      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+</main>
+{% endblock content %}
