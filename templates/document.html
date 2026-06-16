@@ -28,8 +28,26 @@ period = get_section(path=period_path) %}
           </p>
           {% endif %}
         </header>
-        {% include "partials/document-metadata.html" %} {{ page.content | safe
-        }}
+        {% include "partials/document-metadata.html" %}
+        {{ page.content | safe }}
+        {% if section.extra.entries %}
+        <ol class="document-list">
+          {% for item in section.extra.entries %}
+          <li>
+            <a href="{{ config.base_url | safe }}/{{ item.path }}"
+              >{{ item.title }}</a
+            >
+            {% if item.kind %}
+            <span class="document-kind">
+              {% if item.kind == "book" %}Libro {% elif item.kind == "conference"
+              %}Conferencia {% elif item.kind == "fragment" %}Fragmento {% else %}{{
+              item.kind }} {% endif %}
+            </span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ol>
+        {% endif %}
       </article>
       <nav class="chapter-pagination" aria-label="Navegación entre documentos">
         {% if page.extra.navigation and page.extra.navigation.previous_path %}
