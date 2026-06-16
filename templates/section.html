@@ -2,7 +2,7 @@
 config.extra.site.name }}{% endblock title %} {% block content %}
 <main id="contenido" class="archive-main">
   <header class="archive-header archive-header--compact">
-    {% if section.ancestors | length > 1 %} {% set parent_path =
+    {% if section.ancestors | length > 0 %} {% set parent_path =
     section.ancestors | last %} {% set parent = get_section(path=parent_path) %}
     <p class="back-link">
       <a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a>
