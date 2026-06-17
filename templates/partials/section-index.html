@@ -1,0 +1,39 @@
+{% if section_or_page.ancestors | length > 0 %}
+{% set parent_path = section_or_page.ancestors | last %}
+{% set parent = get_section(path=parent_path) %}
+<p class="back-link">
+  <a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a>
+</p>
+{% endif %}
+
+{% if entries %}
+<ol class="document-list">
+  {% for item in entries %}
+  <li>
+    <a href="{{ config.base_url | safe }}/{{ item.path }}">{{ item.title }}</a>
+    {% if item.kind %}
+    <span class="document-kind">
+      {% if item.kind == "book" %}Libro {% elif item.kind == "conference" %}Conferencia {% elif item.kind == "fragment" %}Fragmento {% else %}{{ item.kind }} {% endif %}
+    </span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% elif section_or_page.subsections %}
+<ol class="document-list">
+  {% for sub_path in section_or_page.subsections %}
+  {% set sub = get_section(path=sub_path) %}
+  <li>
+    <a href="{{ sub.permalink | safe }}">{{ sub.title }}</a>
+  </li>
+  {% endfor %}
+</ol>
+{% elif section_or_page.pages %}
+<ol class="document-list">
+  {% for page_item in section_or_page.pages %}
+  <li>
+    <a href="{{ page_item.permalink | safe }}">{{ page_item.title }}</a>
+  </li>
+  {% endfor %}
+</ol>
+{% endif %}
