@@ -1,14 +1,14 @@
-{% if section_or_page.ancestors | length > 0 %}
-{% set parent_path = section_or_page.ancestors | last %}
+{% if section_index_source.ancestors | length > 0 %}
+{% set parent_path = section_index_source.ancestors | last %}
 {% set parent = get_section(path=parent_path) %}
 <p class="back-link">
   <a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a>
 </p>
 {% endif %}
 
-{% if entries %}
+{% if section_index_entries %}
 <ol class="document-list">
-  {% for item in entries %}
+  {% for item in section_index_entries %}
   <li>
     <a href="{{ config.base_url | safe }}/{{ item.path }}">{{ item.title }}</a>
     {% if item.kind %}
@@ -19,18 +19,18 @@
   </li>
   {% endfor %}
 </ol>
-{% elif section_or_page.subsections %}
+{% elif section_index_source.subsections %}
 <ol class="document-list">
-  {% for sub_path in section_or_page.subsections %}
+  {% for sub_path in section_index_source.subsections %}
   {% set sub = get_section(path=sub_path) %}
   <li>
     <a href="{{ sub.permalink | safe }}">{{ sub.title }}</a>
   </li>
   {% endfor %}
 </ol>
-{% elif section_or_page.pages %}
+{% elif section_index_source.pages %}
 <ol class="document-list">
-  {% for page_item in section_or_page.pages %}
+  {% for page_item in section_index_source.pages %}
   <li>
     <a href="{{ page_item.permalink | safe }}">{{ page_item.title }}</a>
   </li>

@@ -27,7 +27,9 @@ period = get_section(path=period_path) %}
         </header>
         {% include "partials/document-metadata.html" %}
         {{ page.content | safe }}
-        {% include "partials/section-index.html" with { section_or_page: period, entries: period.extra.entries | default(value=false) } %}
+        {% set section_index_source = period %}
+        {% set section_index_entries = period.extra.entries | default(value=false) %}
+        {% include "partials/section-index.html" %}
       </article>
       <nav class="chapter-pagination" aria-label="Navegación entre documentos">
         {% if page.extra.navigation and page.extra.navigation.previous_path %}

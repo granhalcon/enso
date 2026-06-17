@@ -10,6 +10,8 @@ config.extra.site.name }}{% endblock title %} {% block content %}
   {% if section.content %}
   <div class="reading-content">{{ section.content | safe }}</div>
   {% endif %}
-  {% include "partials/section-index.html" with { section_or_page: section, entries: section.extra.entries | default(value=false) } %}
+  {% set section_index_source = section %}
+  {% set section_index_entries = section.extra.entries | default(value=false) %}
+  {% include "partials/section-index.html" %}
 </main>
 {% endblock content %}
