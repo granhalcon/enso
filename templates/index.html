@@ -1,62 +1,8 @@
-{% extends "base.html" %} {% block title %}{{ section.title }} — {{
-config.extra.site.name }}{% endblock title %} {% block content %}
-<main id="contenido">
-  {% if section.title or section.description or section.content or
-  section.extra.cover %}
-  <article class="home-content">
-    <header class="archive-header archive-header--compact">
-      <h1>{{ section.title }}</h1>
-      {% if section.description %}
-      <p>{{ section.description }}</p>
-      {% endif %}
-    </header>
-    {% if section.extra.cover %}
-    <img
-      class="home-content__image"
-      src="{{ get_url(path=section.extra.cover) | safe }}"
-      {%
-      if
-      section.extra.cover_small
-      %}srcset="{{ get_url(path=section.extra.cover_small) | safe }} 800w, {{ get_url(path=section.extra.cover) | safe }} 1600w"
-      {%
-      endif
-      %}
-      sizes="(max-width: 832px) calc(100vw - 2rem), 800px"
-      width="{{ section.extra.cover_width | default(value=1600) }}"
-      height="{{ section.extra.cover_height | default(value=1600) }}"
-      alt="{{ section.extra.cover_alt | default(value='') }}"
-    />
-    {% endif %} {{ section.content | safe }} {% if section.extra.sections %}
-    <nav class="archive-periods" aria-label="Secciones de {{ section.title }}">
-      {% for item in section.extra.sections %}
-      <section class="archive-period">
-        <h2>
-          <a href="{{ config.base_url | safe }}/{{ item.path }}"
-            >{{ item.title }}</a
-          >
-        </h2>
-      </section>
-      {% endfor %}
-    </nav>
-    {% endif %}
-  </article>
-  {% endif %} {% if section.subsections %}
-  <ol class="archive-main document-list">
-    {% for sub_path in section.subsections %} {% set sub =
-    get_section(path=sub_path) %}
-    <li>
-      <a href="{{ sub.permalink | safe }}">{{ sub.title }}</a>
-    </li>
-    {% endfor %}
-  </ol>
-  {% elif section.pages %}
-  <ol class="archive-main document-list">
-    {% for page in section.pages %}
-    <li>
-      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-    </li>
-    {% endfor %}
-  </ol>
-  {% endif %}
+{% extends "base.html" %}
+{% block title %}{{ section.title }} — {{ config.extra.site.name }}{% endblock title %}
+{% block content %}
+{% set portada_source = section %}
+<main id="contenido" class="archive-main">
+  {% include "partials/portada.html" %}
 </main>
 {% endblock content %}

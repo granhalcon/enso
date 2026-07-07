@@ -1,11 +1,3 @@
-{% if section_index_source.ancestors | length > 0 %}
-{% set parent_path = section_index_source.ancestors | last %}
-{% set parent = get_section(path=parent_path) %}
-<p class="back-link">
-  <a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a>
-</p>
-{% endif %}
-
 {% if section_index_entries %}
 <ol class="document-list">
   {% for item in section_index_entries %}

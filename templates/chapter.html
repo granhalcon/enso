@@ -1,16 +1,38 @@
-{% extends "base.html" %} {% block title %}{{ page.title }} — {{
-config.extra.site.name }}{% endblock title %} {% block content %} {% set
-book_path = page.ancestors | last %} {% set book = get_section(path=book_path)
-%} {% set current_permalink = page.permalink %}
+{% extends "base.html" %}
+{% block title %}{{ page.title }} — {{ config.extra.site.name }}{% endblock title %}
+{% block content %}
+{% set book_path = page.ancestors | last %}
+{% set book = get_section(path=book_path) %}
 <main id="contenido" class="reading-main">
-  <div class="book-reading-layout">
-    {% include "partials/book-navigation.html" %}
+  <div class="reading-layout">
+    <aside class="reading-sidebar reading-sidebar--desktop">
+      <nav class="reading-sidebar__body" aria-label="Capítulos de {{ book.title }}">
+        <p class="reading-sidebar__title"><a href="{{ book.permalink | safe }}">{{ book.title }}</a></p>
+        <ol>
+          {% for chapter in book.pages %}
+          <li>
+            <a href="{{ chapter.permalink | safe }}" {% if chapter.permalink == page.permalink %}aria-current="page"{% endif %}>{{ chapter.title }}</a>
+          </li>
+          {% endfor %}
+        </ol>
+      </nav>
+    </aside>
+    <details class="reading-sidebar reading-sidebar--mobile">
+      <summary>Capítulos</summary>
+      <nav class="reading-sidebar__body" aria-label="Capítulos de {{ book.title }}">
+        <ol>
+          {% for chapter in book.pages %}
+          <li>
+            <a href="{{ chapter.permalink | safe }}" {% if chapter.permalink == page.permalink %}aria-current="page"{% endif %}>{{ chapter.title }}</a>
+          </li>
+          {% endfor %}
+        </ol>
+      </nav>
+    </details>
     <div class="chapter-column">
       <article class="reading-content">
         <header class="reading-header">
-          <p class="back-link">
-            <a href="{{ book.permalink | safe }}">← {{ book.title }}</a>
-          </p>
+          <p class="back-link"><a href="{{ book.permalink | safe }}">← {{ book.title }}</a></p>
           <h1>{{ page.title }}</h1>
         </header>
         {{ page.content | safe }}
@@ -23,14 +45,9 @@ book_path = page.ancestors | last %} {% set book = get_section(path=book_path)
         {% endif %}
         <a href="{{ book.permalink | safe }}">Contenido</a>
         {% if page.higher %}
-        <a href="{{ page.higher.permalink | safe }}"
-          >{{ page.higher.title }} →</a
-        >
+        <a href="{{ page.higher.permalink | safe }}">{{ page.higher.title }} →</a>
         {% elif book.extra.navigation and book.extra.navigation.next_path %}
-        <a
-          href="{{ config.base_url | safe }}/{{ book.extra.navigation.next_path }}"
-          >{{ book.extra.navigation.next_title }} →</a
-        >
+        <a href="{{ config.base_url | safe }}/{{ book.extra.navigation.next_path }}">{{ book.extra.navigation.next_title }} →</a>
         {% else %}
         <span></span>
         {% endif %}

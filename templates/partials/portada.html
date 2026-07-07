@@ -1,0 +1,34 @@
+{% set portada_source = portada_source | default(value=section) %}
+<header class="archive-header">
+  {% if portada_source.ancestors | length > 0 %}
+  {% set parent_path = portada_source.ancestors | last %}
+  {% set parent = get_section(path=parent_path) %}
+  <p class="back-link"><a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a></p>
+  {% endif %}
+  <h1>{{ portada_source.title }}</h1>
+  {% if portada_source.description %}
+  <p>{{ portada_source.description }}</p>
+  {% endif %}
+</header>
+{% if portada_source.extra.cover %}
+<img
+  class="portada-cover"
+  src="{{ get_url(path=portada_source.extra.cover) | safe }}"
+  width="800"
+  height="800"
+  alt="{{ portada_source.extra.cover_alt | default(value='') }}"
+/>
+{% endif %}
+{% if portada_source.extra.authors %}
+<p class="reading-author">{{ portada_source.extra.authors | join(sep=", ") }}</p>
+{% endif %}
+{% if portada_source.extra.metadata %}
+{% set metadata = portada_source.extra.metadata %}
+{% include "partials/document-metadata.html" %}
+{% endif %}
+{% if portada_source.content %}
+<div class="reading-content">{{ portada_source.content | safe }}</div>
+{% endif %}
+{% set section_index_source = portada_source %}
+{% set section_index_entries = portada_source.extra.entries | default(value=false) %}
+{% include "partials/section-index.html" %}

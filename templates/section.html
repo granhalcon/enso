@@ -1,17 +1,8 @@
-{% extends "base.html" %} {% block title %}{{ section.title }} — {{
-config.extra.site.name }}{% endblock title %} {% block content %}
+{% extends "base.html" %}
+{% block title %}{{ section.title }} — {{ config.extra.site.name }}{% endblock title %}
+{% block content %}
+{% set portada_source = section %}
 <main id="contenido" class="archive-main">
-  <header class="archive-header archive-header--compact">
-    <h1>{{ section.title }}</h1>
-    {% if section.description %}
-    <p>{{ section.description }}</p>
-    {% endif %}
-  </header>
-  {% if section.content %}
-  <div class="reading-content">{{ section.content | safe }}</div>
-  {% endif %}
-  {% set section_index_source = section %}
-  {% set section_index_entries = section.extra.entries | default(value=false) %}
-  {% include "partials/section-index.html" %}
+  {% include "partials/portada.html" %}
 </main>
 {% endblock content %}
