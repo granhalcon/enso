@@ -1,8 +1,50 @@
 {% extends "base.html" %}
+{% import "partials/toc.html" as toc_macros %}
 {% block title %}{{ section.title }} — {{ config.extra.site.name }}{% endblock title %}
 {% block content %}
+{% if section.pages %}
 {% set portada_source = section %}
 <main id="contenido" class="archive-main">
   {% include "partials/portada.html" %}
 </main>
+{% else %}
+{% set period_path = section.ancestors | last %}
+{% set period = get_section(path=period_path) %}
+<main id="contenido" class="reading-main">
+  <div class="reading-layout">
+    <aside class="reading-sidebar reading-sidebar--desktop">
+      <nav class="reading-sidebar__body" aria-label="Contenido de {{ section.title }}">
+        <p class="reading-sidebar__title"><a href="{{ period.permalink | safe }}">{{ period.title }}</a></p>
+        {% if section.toc %}
+        {{ toc_macros::render(items=section.toc) }}
+        {% endif %}
+      </nav>
+    </aside>
+    <details class="reading-sidebar reading-sidebar--mobile">
+      <summary>{{ section.title }}</summary>
+      <nav class="reading-sidebar__body" aria-label="Contenido de {{ section.title }}">
+        {% if section.toc %}
+        {{ toc_macros::render(items=section.toc) }}
+        {% endif %}
+      </nav>
+    </details>
+    <div class="chapter-column">
+      <article class="reading-content">
+        <header class="reading-header">
+          <p class="back-link"><a href="{{ period.permalink | safe }}">← {{ period.title }}</a></p>
+          <h1>{{ section.title }}</h1>
+          {% if section.extra.authors %}
+          <p class="reading-author">{{ section.extra.authors | join(sep=", ") }}</p>
+          {% endif %}
+        </header>
+        {% if section.extra.metadata %}
+        {% set metadata = section.extra.metadata %}
+        {% include "partials/document-metadata.html" %}
+        {% endif %}
+        {{ section.content | safe }}
+      </article>
+    </div>
+  </div>
+</main>
+{% endif %}
 {% endblock content %}
