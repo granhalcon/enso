@@ -2,12 +2,6 @@
 config.extra.site.name }}{% endblock title %} {% block content %}
 <main id="contenido" class="archive-main">
   <header class="archive-header archive-header--compact">
-    {% if section.ancestors | length > 0 %} {% set parent_path =
-    section.ancestors | last %} {% set parent = get_section(path=parent_path) %}
-    <p class="back-link">
-      <a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a>
-    </p>
-    {% endif %}
     <h1>{{ section.title }}</h1>
     {% if section.description %}
     <p>{{ section.description }}</p>
@@ -15,40 +9,9 @@ config.extra.site.name }}{% endblock title %} {% block content %}
   </header>
   {% if section.content %}
   <div class="reading-content">{{ section.content | safe }}</div>
-  {% endif %} {% if section.extra.entries %}
-  <ol class="document-list">
-    {% for item in section.extra.entries %}
-    <li>
-      <a href="{{ config.base_url | safe }}/{{ item.path }}"
-        >{{ item.title }}</a
-      >
-      {% if item.kind %}
-      <span class="document-kind">
-        {% if item.kind == "book" %}Libro {% elif item.kind == "conference"
-        %}Conferencia {% elif item.kind == "fragment" %}Fragmento {% else %}{{
-        item.kind }} {% endif %}
-      </span>
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ol>
-  {% elif section.subsections %}
-  <ol class="document-list">
-    {% for sub_path in section.subsections %} {% set sub =
-    get_section(path=sub_path) %}
-    <li>
-      <a href="{{ sub.permalink | safe }}">{{ sub.title }}</a>
-    </li>
-    {% endfor %}
-  </ol>
-  {% elif section.pages %}
-  <ol class="document-list">
-    {% for page in section.pages %}
-    <li>
-      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-    </li>
-    {% endfor %}
-  </ol>
   {% endif %}
+  {% set section_index_source = section %}
+  {% set section_index_entries = section.extra.entries | default(value=false) %}
+  {% include "partials/section-index.html" %}
 </main>
 {% endblock content %}
