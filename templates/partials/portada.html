@@ -1,4 +1,5 @@
 {% set portada_source = portada_source | default(value=section) %}
+{% set portada_slug = portada_source.components | last %}
 <header class="archive-header">
   {% if portada_source.ancestors | length > 0 %}
   {% set parent_path = portada_source.ancestors | last %}
@@ -6,18 +7,18 @@
   <p class="back-link"><a href="{{ parent.permalink | safe }}">← {{ parent.title }}</a></p>
   {% endif %}
   <h1>{{ portada_source.title }}</h1>
-  {% if portada_source.description %}
-  <p>{{ portada_source.description }}</p>
-  {% endif %}
 </header>
 {% if portada_source.extra.cover %}
 <img
   class="portada-cover"
-  src="{{ get_url(path=portada_source.extra.cover) | safe }}"
+  src="{{ get_url(path="media/" ~ portada_slug ~ "/" ~ portada_source.extra.cover) | safe }}"
   width="800"
   height="800"
   alt="{{ portada_source.extra.cover_alt | default(value='') }}"
 />
+{% endif %}
+{% if portada_source.description %}
+<p class="portada-description">{{ portada_source.description }}</p>
 {% endif %}
 {% if portada_source.extra.authors %}
 <p class="reading-author">{{ portada_source.extra.authors | join(sep=", ") }}</p>
