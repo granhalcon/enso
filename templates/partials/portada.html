@@ -1,5 +1,6 @@
 {% set portada_source = portada_source | default(value=section) %}
-{% set portada_slug = portada_source.components | last %}
+<!-- DEBUG components: {{ portada_source.components | json_encode }} -->
+{% set portada_slug = portada_source.components | last | default(value="circulo") %}
 <header class="archive-header">
   {% if portada_source.ancestors | length > 0 %}
   {% set parent_path = portada_source.ancestors | last %}
